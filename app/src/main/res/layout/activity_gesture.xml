@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+
+
+
+    <RelativeLayout
+        android:id="@+id/person_img_indicator"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="65dp" >
+
+        <com.android.gesture.app.view.LockIndicator
+            android:id="@+id/mPassWordView_small"
+            android:layout_width="160dip"
+            android:layout_height="160dip"
+            android:layout_centerHorizontal="true"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/person_img"
+            android:layout_width="60dip"
+            android:layout_height="60dip"
+            android:layout_centerHorizontal="true"
+            android:clickable="false"
+            android:gravity="center"
+            android:scaleType="fitXY"
+            android:src="@drawable/touxiang" >
+        </ImageView>
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/person_img_txt"
+        android:layout_width="60dip"
+        android:layout_height="60dip"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="50dp"
+        android:clickable="false"
+        android:gravity="center"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/multi_tv_token_time_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_below="@id/person_img_indicator"
+        android:layout_marginTop="5dp"
+        android:textColor="#8e8e8e"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/multi_tv_false_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/multi_tv_token_time_hint"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:textColor="#ffff695e"
+        android:textSize="16sp" />
+
+    <com.android.gesture.app.view.LocusPassWordView
+        android:id="@+id/mPassWordView"
+        android:layout_width="300dip"
+        android:layout_gravity="center"
+        android:layout_height="300dp"
+        android:layout_below="@id/person_img_indicator"
+       />
+
+    <TextView
+        android:id="@+id/reset"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="15dp"
+        android:layout_marginLeft="26dp"
+        android:visibility="gone" />
+
+</LinearLayout>
