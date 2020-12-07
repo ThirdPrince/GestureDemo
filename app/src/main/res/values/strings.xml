@@ -38,4 +38,13 @@
     <string name="more_pwd_modify_tip">密码为6-16位的字母、数字或组合</string>
     <string name="rationale_sd">需要你的电话权限来确定唯一设备</string>
     <string name="rationale_intall_apk">需要你的安装权限来升级应用</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome !"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
 </resources>

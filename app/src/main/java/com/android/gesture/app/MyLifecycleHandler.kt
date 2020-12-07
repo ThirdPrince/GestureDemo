@@ -19,6 +19,8 @@ class MyLifecycleHandler constructor(context:Context): Application.ActivityLifec
 
     private val mContext:Context = context
 
+    private var rangTime = System.currentTimeMillis();
+
     override fun onActivityPaused(activity: Activity?) {
 
     }
@@ -29,7 +31,8 @@ class MyLifecycleHandler constructor(context:Context): Application.ActivityLifec
 
     override fun onActivityStarted(activity: Activity?) {
         mFinalCount ++
-
+        rangTime  = System.currentTimeMillis() - rangTime
+        Log.e(TAG, "rangTime = $rangTime " )
         //如果mFinalCount ==1，说明是从后台到前台
         Log.e(TAG, "onActivityStarted:"+mFinalCount.toString())
         if (mFinalCount == 1) {
