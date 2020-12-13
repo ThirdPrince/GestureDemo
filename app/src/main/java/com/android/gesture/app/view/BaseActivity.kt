@@ -37,9 +37,8 @@ open class BaseActivity :AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.base)
         gestureFragment = GestureFragment.newInstance(false,false)
-     ////  if(this::class.java.simpleName == (LoginActivity::class.java.simpleName)) {
-            receiverGesture();
-        //}
+        receiverGesture();
+
 
     }
 
@@ -65,7 +64,7 @@ open class BaseActivity :AppCompatActivity() {
              if(openGesture){
                 GestureActivity.actionStart(this,false)
              }
-         }, 400)
+         }, 200)
 
      }
      internal inner class GestureReceiver : BroadcastReceiver() {
