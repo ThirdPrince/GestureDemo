@@ -22,15 +22,14 @@
             android:visibility="gone" />
 
         <ImageView
-            android:id="@+id/person_img"
-            android:layout_width="60dip"
-            android:layout_height="60dip"
-            android:layout_centerHorizontal="true"
-            android:clickable="false"
-            android:gravity="center"
-            android:scaleType="fitXY"
-            android:src="@drawable/touxiang" >
-        </ImageView>
+                android:id="@+id/person_img"
+                android:layout_width="60dip"
+                android:layout_height="60dip"
+                android:layout_centerHorizontal="true"
+                android:clickable="false"
+                android:gravity="center"
+                android:scaleType="fitXY"
+                android:src="@drawable/touxiang"></ImageView>
     </RelativeLayout>
 
     <TextView

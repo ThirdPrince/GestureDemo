@@ -40,17 +40,22 @@ class GestureActivity : AppCompatActivity() {
 
     private var person_img: ImageView? = null
 
+    companion object{
+        fun actionStart(activity: AppCompatActivity,boolean: Boolean){
+            var  intent = Intent(activity,GestureActivity::class.java).apply {
+                putExtra("openHandLock",boolean)
+            }
+            activity?.startActivity(intent)
+
+        }
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_gesture)
         initData()
         initView()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        Log.e(TAG,"onResume")
     }
 
     private fun initData() {
@@ -67,7 +72,6 @@ class GestureActivity : AppCompatActivity() {
             // 从打开手势密码进入
             pwd = ""
             pwdVerify = false
-            // OPENGESTRUE = false;
             person_img?.setVisibility(View.GONE)
             mPwdView_small?.setVisibility(View.VISIBLE)
         }  else {
@@ -109,14 +113,15 @@ class GestureActivity : AppCompatActivity() {
                         this@GestureActivity,
                         R.anim.gesture_shake
                     )// 加载动画资源文件
-                    if (intent.getBooleanExtra("openHandLock", false)
+                    passWordText?.setText(R.string.more_watch_draw_error)
+                    passWordText?.setTextColor(Color.parseColor("#ffff695e"))
+                    passWordText?.startAnimation(shake)
+                  /*  if (intent.getBooleanExtra("openHandLock", false)
                     ) run {
-                        passWordText?.setText(R.string.more_watch_draw_error)
-                        passWordText?.setTextColor(Color.parseColor("#ffff695e"))
-                        passWordText?.startAnimation(shake)
+
                         if (!pwdVerify) {
                         }
-                    }
+                    }*/
                 }
 
             }

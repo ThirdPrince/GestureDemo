@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.support.v4.app.FragmentActivity
@@ -11,9 +12,11 @@ import android.support.v4.app.FragmentTransaction
 import android.support.v4.content.LocalBroadcastManager
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
-import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import com.android.gesture.R
+import com.android.gesture.app.activity.GestureActivity
 import com.android.gesture.app.fragment.GestureFragment
 import com.android.gesture.app.util.FragmentUtil
 import com.blankj.utilcode.util.ActivityUtils
@@ -32,7 +35,7 @@ open class BaseActivity :AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-      //  setContentView(R.layout.base)
+        setContentView(R.layout.base)
         gestureFragment = GestureFragment.newInstance(false,false)
      ////  if(this::class.java.simpleName == (LoginActivity::class.java.simpleName)) {
             receiverGesture();
@@ -60,23 +63,9 @@ open class BaseActivity :AppCompatActivity() {
 
          Handler().postDelayed({
              if(openGesture){
-                 gestureFragment = GestureFragment.newInstance(false,false)
-
+                GestureActivity.actionStart(this,false)
              }
-             var activity =  ActivityUtils.getTopActivity()
-             var fragmentActivity = activity as FragmentActivity
-             val decor = activity.window.decorView as ViewGroup
-             val frameLayout  = LayoutInflater.from(baseContext).inflate(R.layout.base,decor,false)
-            // frameLayout.setBackgroundResource()  = background
-            /* val params = ViewGroup.LayoutParams(
-                 ViewGroup.LayoutParams.MATCH_PARENT,
-                 ViewGroup.LayoutParams.MATCH_PARENT
-             )
-             frameLayout.setLayoutParams(params)
-             frameLayout.id = View.generateViewId()*/
-             decor.addView(frameLayout)
-            FragmentUtil.replaceFragment(fragmentActivity, R.id.base_container,gestureFragment!!)
-         }, 1000)
+         }, 400)
 
      }
      internal inner class GestureReceiver : BroadcastReceiver() {

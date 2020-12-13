@@ -22,6 +22,7 @@ import com.android.gesture.app.util.FragmentUtil
 import com.android.gesture.app.util.Md5Utils
 import com.android.gesture.app.view.LockIndicator
 import com.android.gesture.app.view.LocusPassWordView
+import com.blankj.utilcode.util.ProcessUtils
 import com.blankj.utilcode.util.SPUtils
 import com.blankj.utilcode.util.ToastUtils
 import kotlinx.android.synthetic.main.fragment_setting.*

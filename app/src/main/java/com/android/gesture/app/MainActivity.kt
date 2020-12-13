@@ -74,11 +74,6 @@ class MainActivity : BaseActivity() {
         }
 
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
-
-        val intent = Intent(this,LoginActivity::class.java)
-        startActivity(intent)
-        //receiverGesture()
-        //toast("测试")
     }
 
     fun Activity.toast(message: CharSequence, duration: Int = Toast.LENGTH_SHORT) {
@@ -87,12 +82,10 @@ class MainActivity : BaseActivity() {
 
     override fun onPause() {
         super.onPause()
-        Log.e(TAG, "onPause")
     }
 
     override fun onStop() {
         super.onStop()
-        Log.e(TAG, "onStop")
     }
 
 
