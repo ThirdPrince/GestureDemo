@@ -42,6 +42,9 @@ open class BaseActivity :AppCompatActivity() {
 
     }
 
+
+
+
     override fun onDestroy() {
         super.onDestroy()
         LocalBroadcastManager.getInstance(this).unregisterReceiver(gestureReceiver!!)//注册

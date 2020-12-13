@@ -11,6 +11,7 @@ import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.FragmentTransaction
 import android.widget.Toast
 import com.android.gesture.R
+import com.android.gesture.app.activity.SecActivity
 import com.android.gesture.app.fragment.SettingFragment
 import com.android.gesture.app.view.BaseActivity
 import kotlinx.android.synthetic.main.activity_main2.*
@@ -58,6 +59,9 @@ class MainActivity : BaseActivity() {
         }
 
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+
+        var intent = Intent(this,SecActivity::class.java)
+        startActivity(intent)
     }
 
     fun Activity.toast(message: CharSequence, duration: Int = Toast.LENGTH_SHORT) {
