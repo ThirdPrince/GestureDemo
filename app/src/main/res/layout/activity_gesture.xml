@@ -64,7 +64,7 @@
         android:textSize="16sp" />
 
     <com.android.gesture.app.view.LocusPassWordView
-        android:id="@+id/mPassWordView"
+        android:id="@+id/mPwdView"
         android:layout_width="300dip"
         android:layout_gravity="center"
         android:layout_height="300dp"

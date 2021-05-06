@@ -1,8 +1,8 @@
 package com.android.gesture.app.util
 
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentActivity
-import android.support.v7.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
@@ -18,7 +18,7 @@ object FragmentUtil {
         return activity.supportFragmentManager.backStackEntryCount != 0
     }
 
-    fun replaceFragment(activity: FragmentActivity, contentId: Int, fragment: Fragment) {
+    fun replaceFragment(activity: androidx.fragment.app.FragmentActivity, contentId: Int, fragment: androidx.fragment.app.Fragment) {
         val transaction = activity.supportFragmentManager.beginTransaction()
         transaction.setCustomAnimations(R.anim.slide_left_in, R.anim.slide_left_out)
         view = activity.findViewById(contentId)
@@ -30,7 +30,7 @@ object FragmentUtil {
     }
 
 
-    fun addFragment(activity: FragmentActivity, contentId: Int, fragment: Fragment) {
+    fun addFragment(activity: androidx.fragment.app.FragmentActivity, contentId: Int, fragment: androidx.fragment.app.Fragment) {
         val transaction = activity.supportFragmentManager.beginTransaction()
         transaction.setCustomAnimations(R.anim.slide_left_in, R.anim.slide_left_out)
 
@@ -39,7 +39,7 @@ object FragmentUtil {
         transaction.commit()
     }
 
-    fun removeFragment(activity: FragmentActivity, fragment: Fragment) {
+    fun removeFragment(activity: androidx.fragment.app.FragmentActivity, fragment: androidx.fragment.app.Fragment) {
         val decor = activity.getWindow().decorView as ViewGroup
         view.visibility = View.GONE
         decor.removeView(view)
@@ -49,31 +49,31 @@ object FragmentUtil {
     }
 
 
-    fun showFragment(activity: AppCompatActivity, fragment: Fragment) {
+    fun showFragment(activity: AppCompatActivity, fragment: androidx.fragment.app.Fragment) {
         activity.supportFragmentManager.beginTransaction()
                 .show(fragment)
                 .commit()
     }
 
-    fun hideFragment(activity: AppCompatActivity, fragment: Fragment) {
+    fun hideFragment(activity: AppCompatActivity, fragment: androidx.fragment.app.Fragment) {
         activity.supportFragmentManager.beginTransaction()
                 .hide(fragment)
                 .commit()
     }
 
-    fun attachFragment(activity: AppCompatActivity, fragment: Fragment) {
+    fun attachFragment(activity: AppCompatActivity, fragment: androidx.fragment.app.Fragment) {
         activity.supportFragmentManager.beginTransaction()
                 .attach(fragment)
                 .commit()
     }
 
-    fun detachFragment(activity: AppCompatActivity, fragment: Fragment) {
+    fun detachFragment(activity: AppCompatActivity, fragment: androidx.fragment.app.Fragment) {
         activity.supportFragmentManager.beginTransaction()
                 .detach(fragment)
                 .commit()
     }
 
-    fun getFragmentByTag(appCompatActivity: AppCompatActivity, tag: String): Fragment? {
+    fun getFragmentByTag(appCompatActivity: AppCompatActivity, tag: String): androidx.fragment.app.Fragment? {
         return appCompatActivity.supportFragmentManager.findFragmentByTag(tag)
     }
 

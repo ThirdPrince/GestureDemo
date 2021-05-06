@@ -1,6 +1,5 @@
 package com.android.gesture.app.activity
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import com.android.gesture.R
 import com.android.gesture.app.view.BaseActivity

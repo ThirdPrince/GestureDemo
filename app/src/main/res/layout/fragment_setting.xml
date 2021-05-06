@@ -15,7 +15,7 @@
                 style="@style/MineFragmentIndex"
                 android:text="手势密码" />
 
-    <android.support.v7.widget.SwitchCompat
+    <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/gesture_switch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

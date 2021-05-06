@@ -1,10 +1,11 @@
 package com.android.gesture.app.activity
 
+import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
+import android.os.Parcelable
 import android.view.View
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
@@ -14,19 +15,50 @@ import com.android.gesture.app.util.Md5Utils
 import com.android.gesture.app.view.LockIndicator
 import com.android.gesture.app.view.LocusPassWordView
 import com.blankj.utilcode.util.SPUtils
+import java.io.Serializable
+
+
+
+private const val OPEN_HAND_LOCK = "open_hand_lock"
+
+private const val MODIFY_HAND_PW = "modifyHandPw"
+
+private const val GestureTypePara = "GestureType"
+
+
 
 /**
  * 手势密码
+ * @author dhl
  */
 class GestureActivity : AppCompatActivity() {
 
 
-    private val TAG = "GestureActivity"
+    /**
+     *  几种状态
+     */
+    enum class GestureType(i: Int) :Serializable{
 
-    private var mPwdView_small: LockIndicator? = null
-    private lateinit var mPwdView: LocusPassWordView
+        Cancel(-2),
+        Setting(-1),
+        Verify(1),
+        Modify(2);
 
-    private var passWordText: TextView? = null
+    }
+    /**
+     * 绘制手势密码时 ，上面展示小的手势密码 流程图
+     */
+    private  val mPwdViewSmall: LockIndicator by lazy {
+        findViewById<LockIndicator>(R.id.mPassWordView_small)
+    }
+
+    private val mPwdView: LocusPassWordView by lazy {
+        findViewById<LocusPassWordView>(R.id.mPwdView)
+    }
+
+    private val passWordText: TextView by lazy {
+        findViewById<TextView>(R.id.multi_tv_token_time_hint)
+    }
     private var passWordWarnText: TextView? = null
     private var pwd: String? = null
 
@@ -38,12 +70,15 @@ class GestureActivity : AppCompatActivity() {
     // 修改手势密码时，手势密码验证通过标识
     private var modifyVerified = false
 
-    private var person_img: ImageView? = null
+    private var personImg: ImageView? = null
+
+    private var gestureType :GestureType ?= null
+
 
     companion object{
-        fun actionStart(activity: AppCompatActivity,boolean: Boolean){
+        fun actionStart(activity: Activity,gestureType: GestureType){
             var  intent = Intent(activity,GestureActivity::class.java).apply {
-                putExtra("openHandLock",boolean)
+                putExtra(GestureTypePara,gestureType)
             }
             activity?.startActivity(intent)
 
@@ -60,29 +95,25 @@ class GestureActivity : AppCompatActivity() {
 
     private fun initData() {
         pwd = SPUtils.getInstance().getString("password", "")
-        passWordText = findViewById(R.id.multi_tv_token_time_hint)
 
-        intent = this.intent
-        if (intent.getBooleanExtra("modifyHandPw", false)) {
-            // 从修改手势密码进入
-            passWordText?.setText(R.string.more_watch_old)
-            pwdVerify = true
+        gestureType = intent.getSerializableExtra(GestureTypePara) as GestureType?
 
-        } else if (intent.getBooleanExtra("openHandLock", false)) {
-            // 从打开手势密码进入
-            pwd = ""
-            pwdVerify = false
-            person_img?.setVisibility(View.GONE)
-            mPwdView_small?.setVisibility(View.VISIBLE)
-        }  else {
-            // 验证手势密码
-            passWordText?.setText(R.string.more_watch)
+        when(gestureType){
+            GestureType.Setting -> {
+                pwd = ""
+                pwdVerify = false
+                personImg?.visibility = View.GONE
+                mPwdViewSmall?.visibility = View.VISIBLE
+            }
+            GestureType.Verify ->    passWordText?.setText(R.string.more_watch)
+            else ->  ""
 
         }
-    }
+
+        }
+
 
     private fun initView() {
-        mPwdView = findViewById(R.id.mPassWordView)
         mPwdView!!.setOnCompleteListener {
 
             val md5 = Md5Utils()
@@ -93,7 +124,7 @@ class GestureActivity : AppCompatActivity() {
                 mPwdView?.invalidate()
                 passWordText?.setText(R.string.more_watch_draw_next)
                 passWordText?.setTextColor(Color.parseColor("#8e8e8e"))
-                mPwdView_small?.setPath(it)
+                mPwdViewSmall?.setPath(it)
                 passWordText?.setTextColor(Color.parseColor("#8e8e8e"))
                 passWordText?.invalidate()
             } else {
@@ -116,43 +147,22 @@ class GestureActivity : AppCompatActivity() {
                     passWordText?.setText(R.string.more_watch_draw_error)
                     passWordText?.setTextColor(Color.parseColor("#ffff695e"))
                     passWordText?.startAnimation(shake)
-                  /*  if (intent.getBooleanExtra("openHandLock", false)
-                    ) run {
 
-                        if (!pwdVerify) {
-                        }
-                    }*/
                 }
 
             }
 
             if (passed) {
 
-                when {
-                    intent.getBooleanExtra("modifyHandPw", false) -> run {
-                        passedTime += 1
-                        pwd = ""
-                        mPwdView?.clearPassword()
-                        mPwdView?.invalidate()
-                        passWordText?.setText(R.string.more_watch_draw)
-                        setTitle(R.string.more_watch_set)
-                        person_img?.setVisibility(View.GONE)
-                        mPwdView_small?.setVisibility(View.VISIBLE)
-                        passWordText?.setTextColor(Color.parseColor("#8e8e8e"))
-                        passWordText?.invalidate()
-                        if (passedTime == 2) {
-                            SPUtils.getInstance().put("password", md5.toMd5(it, ""))
-                            finish()
-                        }
-
-                    }
-                    intent.getBooleanExtra("openHandLock", false) -> run {
+                when(gestureType) {
+                    GestureType.Verify ->{
                         SPUtils.getInstance().put("password", md5.toMd5(it, ""))
                         SPUtils.getInstance().put("isOpenHandLock", true)
                         val data = Intent()
                         setResult(RESULT_OK, data)
                         finish()
                     }
+
                     else -> finish()
                 }
 
@@ -160,7 +170,9 @@ class GestureActivity : AppCompatActivity() {
         }
     }
 
-
-
-
 }
+
+
+
+
+

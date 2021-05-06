@@ -5,8 +5,8 @@ import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.appcompat.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -45,7 +45,7 @@ private const val MODIFY_HAND_PW = "modifyHandPw"
  * create an instance of this fragment.
  *
  */
-class GestureFragment : Fragment() {
+class GestureFragment : androidx.fragment.app.Fragment() {
     // TODO: Rename and change types of parameters
     private var openHandLock: Boolean? = false
 
@@ -118,7 +118,6 @@ class GestureFragment : Fragment() {
     }
 
     private fun initView(view: View) {
-        mPwdView = view.findViewById(R.id.mPassWordView)
         mPwdView!!.setOnCompleteListener {
 
             val md5 = Md5Utils()
