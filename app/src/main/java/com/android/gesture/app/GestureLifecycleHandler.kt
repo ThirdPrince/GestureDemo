@@ -5,6 +5,7 @@ import android.app.Application
 import android.content.Context
 import android.os.Bundle
 import com.android.gesture.app.activity.GestureActivity
+import com.android.gesture.app.activity.SplashActivity
 
 /**
  * 监听 前后台启动
@@ -31,6 +32,9 @@ class GestureLifecycleHandler constructor(context:Context): Application.Activity
     }
 
     override fun onActivityStarted(activity: Activity?) {
+        if(activityFilter(activity)){
+            return
+        }
         mActivityCount ++
         if (mActivityCount == 1) {
             GestureActivity.actionStart(activity!!,GestureActivity.GestureType.Verify)
@@ -46,11 +50,18 @@ class GestureLifecycleHandler constructor(context:Context): Application.Activity
     }
 
     override fun onActivityStopped(activity: Activity?) {
+        if(activityFilter(activity)){
+            return
+        }
         mActivityCount--
 
     }
 
     override fun onActivityCreated(activity: Activity?, savedInstanceState: Bundle?) {
 
+    }
+
+    private fun activityFilter(activity: Activity?):Boolean{
+        return activity is SplashActivity
     }
 }

@@ -10,7 +10,18 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
-        <activity android:name=".app.activity.SecActivity"></activity>
+        <activity
+                android:name=".app.activity.SplashActivity"
+                android:configChanges="orientation|keyboardHidden|screenSize"
+                android:label="@string/title_activity_splash"
+                android:theme="@style/AppTheme.Fullscreen">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".app.activity.SecActivity" />
         <activity
                 android:name=".app.activity.ui.login.LoginActivity"
                 android:label="@string/title_activity_login" />
@@ -18,11 +29,7 @@
                 android:name=".app.activity.GestureActivity"
                 android:launchMode="singleTop" />
         <activity android:name=".app.MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
     </application>
 
