@@ -25,6 +25,8 @@ private const val MODIFY_HAND_PW = "modifyHandPw"
 
 private const val GestureTypePara = "GestureType"
 
+public const val GESTURE_FOR_RESULT = 1024
+
 
 
 /**
@@ -62,7 +64,6 @@ class GestureActivity : AppCompatActivity() {
     private var passWordWarnText: TextView? = null
     private var pwd: String? = null
 
-    private var passedTime = 0
     private var pwdTime = 0
 
     // 设置手势密码时，重设的标识
@@ -70,7 +71,9 @@ class GestureActivity : AppCompatActivity() {
     // 修改手势密码时，手势密码验证通过标识
     private var modifyVerified = false
 
-    private var personImg: ImageView? = null
+    private val personImg: ImageView by lazy {
+        findViewById<ImageView>(R.id.person_img)
+    }
 
     private var gestureType :GestureType ?= null
 
@@ -83,6 +86,14 @@ class GestureActivity : AppCompatActivity() {
             activity?.startActivity(intent)
 
         }
+        fun actionStartForResult(activity: Activity,gestureType: GestureType){
+            var  intent = Intent(activity,GestureActivity::class.java).apply {
+                putExtra(GestureTypePara,gestureType)
+            }
+            activity?.startActivityForResult(intent,GESTURE_FOR_RESULT)
+
+        }
+
     }
 
 

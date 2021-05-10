@@ -1,5 +1,6 @@
 package com.android.gesture.app.fragment
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -12,6 +13,7 @@ import android.widget.CompoundButton
 import android.widget.RadioGroup
 
 import com.android.gesture.R
+import com.android.gesture.app.activity.GESTURE_FOR_RESULT
 import com.android.gesture.app.activity.GestureActivity
 import com.blankj.utilcode.util.SPUtils
 import com.blankj.utilcode.util.ToastUtils
@@ -54,27 +56,31 @@ class SettingFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         gesture_password.setOnClickListener {
 
-            var  intent = Intent(activity,GestureActivity::class.java)
-            intent.putExtra("openHandLock",true)
+            var intent = Intent(activity, GestureActivity::class.java)
+            intent.putExtra("openHandLock", true)
             activity?.startActivity(intent)
 
         }
-       var isCheck = SPUtils.getInstance().getBoolean("isOpenHandLock")
+        var isCheck = SPUtils.getInstance().getBoolean("isOpenHandLock")
 
         gesture_switch.isChecked = isCheck
-        gesture_switch.setOnCheckedChangeListener(object : CompoundButton.OnCheckedChangeListener
-        {
-            override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
-
-                SPUtils.getInstance().put("isOpenHandLock", isChecked)
-
+        gesture_switch.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (!isChecked) {
+                GestureActivity.actionStartForResult(activity!!, GestureActivity.GestureType.Verify)
             }
-
-        })
-
+            // SPUtils.getInstance().put("isOpenHandLock", isChecked) }
 
 
+        }
+    }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when(requestCode){
+            GESTURE_FOR_RESULT -> if(resultCode == Activity.RESULT_OK){
+                gesture_switch.isChecked = false
+            }
+        }
     }
 
 
