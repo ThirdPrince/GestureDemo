@@ -1,6 +1,7 @@
 package com.android.gesture.app.activity
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
@@ -10,11 +11,17 @@ import android.view.View
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.lifecycle.lifecycleScope
 import com.android.gesture.R
+import com.android.gesture.app.util.GestureManager
 import com.android.gesture.app.util.Md5Utils
 import com.android.gesture.app.view.LockIndicator
 import com.android.gesture.app.view.LocusPassWordView
 import com.blankj.utilcode.util.SPUtils
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.Serializable
 
 
@@ -24,6 +31,8 @@ private const val OPEN_HAND_LOCK = "open_hand_lock"
 private const val MODIFY_HAND_PW = "modifyHandPw"
 
 private const val GestureTypePara = "GestureType"
+
+const val IsOpenHandLock = "isOpenHandLock"
 
 public const val GESTURE_FOR_RESULT = 1024
 
@@ -167,11 +176,22 @@ class GestureActivity : AppCompatActivity() {
 
                 when(gestureType) {
                     GestureType.Verify ->{
-                        SPUtils.getInstance().put("password", md5.toMd5(it, ""))
-                        SPUtils.getInstance().put("isOpenHandLock", true)
-                        val data = Intent()
-                        setResult(RESULT_OK, data)
-                        finish()
+                        lifecycleScope.launch{
+                            GestureManager.setGestureState()
+                            val data = Intent()
+                            setResult(RESULT_OK, data)
+                            finish()
+                        }
+
+                    }
+
+                    GestureType.Setting ->{
+                        lifecycleScope.launch{
+                            GestureManager.setGestureState()
+                            val data = Intent()
+                            setResult(RESULT_OK, data)
+                            finish()
+                        }
                     }
 
                     else -> finish()

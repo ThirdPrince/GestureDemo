@@ -11,13 +11,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.CompoundButton
 import android.widget.RadioGroup
+import androidx.lifecycle.lifecycleScope
 
 import com.android.gesture.R
 import com.android.gesture.app.activity.GESTURE_FOR_RESULT
 import com.android.gesture.app.activity.GestureActivity
+import com.android.gesture.app.activity.IsOpenHandLock
+import com.android.gesture.app.util.GestureManager
 import com.blankj.utilcode.util.SPUtils
 import com.blankj.utilcode.util.ToastUtils
 import kotlinx.android.synthetic.main.fragment_setting.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.*
 
 // TODO: Rename parameter arguments, choose names that match
@@ -32,6 +38,8 @@ class SettingFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+
+    private  var isCheck = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,23 +63,23 @@ class SettingFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         gesture_password.setOnClickListener {
-
             var intent = Intent(activity, GestureActivity::class.java)
             intent.putExtra("openHandLock", true)
             activity?.startActivity(intent)
-
         }
-        var isCheck = SPUtils.getInstance().getBoolean("isOpenHandLock")
+         lifecycleScope.launch{
+             isCheck =  GestureManager.getGestureState()
+             gesture_switch.isChecked = isCheck
+             gesture_switch.setOnCheckedChangeListener { buttonView, isChecked ->
+                 if (!isChecked) {
+                     GestureActivity.actionStartForResult(activity!!, GestureActivity.GestureType.Verify)
+                 }else{
+                     GestureActivity.actionStartForResult(activity!!, GestureActivity.GestureType.Setting)
+                 }
 
-        gesture_switch.isChecked = isCheck
-        gesture_switch.setOnCheckedChangeListener { buttonView, isChecked ->
-            if (!isChecked) {
-                GestureActivity.actionStartForResult(activity!!, GestureActivity.GestureType.Verify)
-            }
-            // SPUtils.getInstance().put("isOpenHandLock", isChecked) }
-
-
+             }
         }
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -79,28 +87,17 @@ class SettingFragment : Fragment() {
         when(requestCode){
             GESTURE_FOR_RESULT -> if(resultCode == Activity.RESULT_OK){
                 gesture_switch.isChecked = false
+                lifecycleScope.launch{
+                   GestureManager.setGestureState(false)
+                }
             }
         }
     }
 
-
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     *
-     *
-     * See the Android Training lesson [Communicating with Other Fragments]
-     * (http://developer.android.com/training/basics/fragments/communicating.html)
-     * for more information.
-     */
-
-
     companion object {
 
         public const val TAG  = "SettingFragment"
+
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
             SettingFragment().apply {

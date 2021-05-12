@@ -3,9 +3,18 @@ package com.android.gesture.app
 import android.app.Activity
 import android.app.Application
 import android.content.Context
+import android.nfc.Tag
 import android.os.Bundle
+import androidx.lifecycle.lifecycleScope
 import com.android.gesture.app.activity.GestureActivity
+import com.android.gesture.app.activity.IsOpenHandLock
 import com.android.gesture.app.activity.SplashActivity
+import com.android.gesture.app.util.GestureManager
+import com.blankj.utilcode.util.SPUtils
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 /**
  * 监听 前后台启动
@@ -17,6 +26,11 @@ class GestureLifecycleHandler constructor(context:Context): Application.Activity
     companion object{
         private const val TAG = "GestureLifecycleHandler"
     }
+
+    private val uiScope  =  CoroutineScope(Dispatchers.Main)
+
+    private var isOpenHandLock = false
+
 
     /**
      * 记录 activity 前后台情况
@@ -36,8 +50,14 @@ class GestureLifecycleHandler constructor(context:Context): Application.Activity
             return
         }
         mActivityCount ++
-        if (mActivityCount == 1) {
-            GestureActivity.actionStart(activity!!,GestureActivity.GestureType.Verify)
+        uiScope.launch {
+            withContext(Dispatchers.IO){
+                isOpenHandLock =  GestureManager.getGestureState()
+                if(isOpenHandLock && mActivityCount == 1){
+                    GestureActivity.actionStart(activity!!,GestureActivity.GestureType.Verify)
+                }
+            }
+
         }
     }
 

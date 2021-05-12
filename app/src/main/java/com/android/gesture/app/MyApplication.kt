@@ -22,6 +22,7 @@ class MyApplication :Application() {
         gestureLifecycleHandler = GestureLifecycleHandler(this)
         registerActivityListener()
 
+
     }
 
     override fun onTerminate() {
