@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.CompoundButton
 import android.widget.RadioGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 
 import com.android.gesture.R
@@ -72,7 +73,7 @@ class SettingFragment : Fragment() {
              gesture_switch.isChecked = isCheck
              gesture_switch.setOnCheckedChangeListener { buttonView, isChecked ->
                  if (!isChecked) {
-                     GestureActivity.actionStartForResult(activity!!, GestureActivity.GestureType.Verify)
+                     GestureActivity.actionStartForResult(this@SettingFragment, GestureActivity.GestureType.Verify)
                  }else{
                      GestureActivity.actionStartForResult(activity!!, GestureActivity.GestureType.Setting)
                  }
@@ -85,10 +86,10 @@ class SettingFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when(requestCode){
-            GESTURE_FOR_RESULT -> if(resultCode == Activity.RESULT_OK){
-                gesture_switch.isChecked = false
+            AppCompatActivity.RESULT_FIRST_USER -> if(resultCode == Activity.RESULT_OK){
                 lifecycleScope.launch{
                    GestureManager.setGestureState(false)
+                    gesture_switch.isChecked = false
                 }
             }
         }

@@ -1,16 +1,15 @@
 package com.android.gesture.app.activity
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Parcelable
 import android.view.View
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.android.gesture.R
 import com.android.gesture.app.util.GestureManager
@@ -18,10 +17,7 @@ import com.android.gesture.app.util.Md5Utils
 import com.android.gesture.app.view.LockIndicator
 import com.android.gesture.app.view.LocusPassWordView
 import com.blankj.utilcode.util.SPUtils
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.io.Serializable
 
 
@@ -32,9 +28,11 @@ private const val MODIFY_HAND_PW = "modifyHandPw"
 
 private const val GestureTypePara = "GestureType"
 
+ const val PASSWORD = "password"
+
 const val IsOpenHandLock = "isOpenHandLock"
 
-public const val GESTURE_FOR_RESULT = 1024
+const val GESTURE_FOR_RESULT = 1024
 
 
 
@@ -72,9 +70,7 @@ class GestureActivity : AppCompatActivity() {
     }
     private var passWordWarnText: TextView? = null
     private var pwd: String? = null
-
     private var pwdTime = 0
-
     // 设置手势密码时，重设的标识
     private var pwdVerify = false
     // 修改手势密码时，手势密码验证通过标识
@@ -87,7 +83,11 @@ class GestureActivity : AppCompatActivity() {
     private var gestureType :GestureType ?= null
 
 
+    /**
+     * 对外提供启动入口
+     */
     companion object{
+
         fun actionStart(activity: Activity,gestureType: GestureType){
             var  intent = Intent(activity,GestureActivity::class.java).apply {
                 putExtra(GestureTypePara,gestureType)
@@ -95,12 +95,20 @@ class GestureActivity : AppCompatActivity() {
             activity?.startActivity(intent)
 
         }
+
         fun actionStartForResult(activity: Activity,gestureType: GestureType){
             var  intent = Intent(activity,GestureActivity::class.java).apply {
                 putExtra(GestureTypePara,gestureType)
             }
             activity?.startActivityForResult(intent,GESTURE_FOR_RESULT)
 
+        }
+
+        fun actionStartForResult(fragment: Fragment,gestureType: GestureType){
+            var  intent = Intent(fragment.activity,GestureActivity::class.java).apply {
+                putExtra(GestureTypePara,gestureType)
+            }
+            fragment?.startActivityForResult(intent,RESULT_FIRST_USER)
         }
 
     }
@@ -114,10 +122,8 @@ class GestureActivity : AppCompatActivity() {
     }
 
     private fun initData() {
-        pwd = SPUtils.getInstance().getString("password", "")
-
+        pwd = SPUtils.getInstance().getString(PASSWORD, "")
         gestureType = intent.getSerializableExtra(GestureTypePara) as GestureType?
-
         when(gestureType){
             GestureType.Setting -> {
                 pwd = ""
@@ -127,7 +133,6 @@ class GestureActivity : AppCompatActivity() {
             }
             GestureType.Verify ->    passWordText?.setText(R.string.more_watch)
             else ->  ""
-
         }
 
         }
@@ -135,7 +140,6 @@ class GestureActivity : AppCompatActivity() {
 
     private fun initView() {
         mPwdView!!.setOnCompleteListener {
-
             val md5 = Md5Utils()
             var passed = false
             if (pwd?.length == 0) run {
@@ -159,35 +163,27 @@ class GestureActivity : AppCompatActivity() {
                     passWordWarnText?.setVisibility(View.INVISIBLE)
                 } else {
                     mPwdView?.markError()
-
                     val shake = AnimationUtils.loadAnimation(
                         this@GestureActivity,
                         R.anim.gesture_shake
-                    )// 加载动画资源文件
+                    )
                     passWordText?.setText(R.string.more_watch_draw_error)
                     passWordText?.setTextColor(Color.parseColor("#ffff695e"))
                     passWordText?.startAnimation(shake)
-
                 }
 
             }
-
             if (passed) {
-
                 when(gestureType) {
                     GestureType.Verify ->{
-                        lifecycleScope.launch{
-                            GestureManager.setGestureState()
-                            val data = Intent()
-                            setResult(RESULT_OK, data)
-                            finish()
-                        }
-
+                        val data = Intent()
+                        setResult(RESULT_OK, data)
+                        finish()
                     }
 
                     GestureType.Setting ->{
                         lifecycleScope.launch{
-                            GestureManager.setGestureState()
+                            GestureManager.setGestureState(true,md5.toMd5(it,""))
                             val data = Intent()
                             setResult(RESULT_OK, data)
                             finish()
