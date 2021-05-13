@@ -45,6 +45,10 @@ class GestureActivity : AppCompatActivity() {
 
     /**
      *  几种状态
+     *  Cancel(取消，取消之前要验证)
+     *  Setting(设置，设置一般要两次)
+     *  Verify (验证，一般输入一次，成功后关闭）
+     *  Modify(verify - setting)
      */
     enum class GestureType(i: Int) :Serializable{
 
@@ -176,11 +180,10 @@ class GestureActivity : AppCompatActivity() {
             if (passed) {
                 when(gestureType) {
                     GestureType.Verify ->{
-                        val data = Intent()
-                        setResult(RESULT_OK, data)
+//                        val data = Intent()
+//                        setResult(RESULT_OK, data)
                         finish()
                     }
-
                     GestureType.Setting ->{
                         lifecycleScope.launch{
                             GestureManager.setGestureState(true,md5.toMd5(it,""))
@@ -188,6 +191,15 @@ class GestureActivity : AppCompatActivity() {
                             setResult(RESULT_OK, data)
                             finish()
                         }
+                    }
+
+                    GestureType.Modify ->{
+
+                    }
+                    GestureType.Cancel -> {
+                        val data = Intent()
+                        setResult(RESULT_OK, data)
+                        finish()
                     }
 
                     else -> finish()

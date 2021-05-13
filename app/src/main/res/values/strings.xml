@@ -17,6 +17,7 @@
     <string name="more_watch">请输入手势密码</string>
     <string name="more_watch_old">请输入原手势密码</string>
     <string name="more_watch_validate">验证手势密码</string>
+    <string name="modify_gesture_pw">修改手势密码</string>
     <string name="more_watch_set">设置手势密码</string>
     <string name="more_watch_set_success">设置成功</string>
     <string name="more_watch_error">您已连续5次输错手势，手势解锁已关闭，请重新登录。</string>

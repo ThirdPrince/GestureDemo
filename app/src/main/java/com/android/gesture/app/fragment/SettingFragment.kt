@@ -73,7 +73,7 @@ class SettingFragment : Fragment() {
              gesture_switch.isChecked = isCheck
              gesture_switch.setOnCheckedChangeListener { buttonView, isChecked ->
                  if (!isChecked) {
-                     GestureActivity.actionStartForResult(this@SettingFragment, GestureActivity.GestureType.Verify)
+                     GestureActivity.actionStartForResult(this@SettingFragment, GestureActivity.GestureType.Cancel)
                  }else{
                      GestureActivity.actionStartForResult(activity!!, GestureActivity.GestureType.Setting)
                  }
