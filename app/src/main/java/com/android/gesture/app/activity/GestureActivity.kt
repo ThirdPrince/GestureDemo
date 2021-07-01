@@ -196,7 +196,8 @@ class GestureActivity : AppCompatActivity() {
                     }
 
                     GestureType.Modify ->{
-
+                        GestureActivity.actionStartForResult(this, GestureActivity.GestureType.Setting)
+                        finish()
                     }
                     GestureType.Cancel -> {
                         val data = Intent()

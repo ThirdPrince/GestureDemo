@@ -8,18 +8,18 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <!-- Pad版更多导航 -->
     <style name="MineFragmentIndex">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">56dp</item>
         <item name="android:background">?attr/selectableItemBackground</item>
         <item name="android:drawablePadding">5dp</item>
-<!--        <item name="android:drawableRight">@drawable/mine_arrow</item>-->
+        <item name="android:drawableRight">@drawable/mine_arrow</item>
         <item name="android:gravity">left|center</item>
         <item name="android:paddingLeft">12dp</item>
         <item name="android:paddingRight">12dp</item>
         <item name="android:singleLine">true</item>
-
+        <item name="android:textColor">#111111</item>
+        <item name="android:textSize">16sp</item>
     </style>
 
     <style name="Widget.AppTheme.ActionBar.Fullscreen" parent="Widget.AppCompat.ActionBar">

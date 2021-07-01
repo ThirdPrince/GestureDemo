@@ -8,17 +8,18 @@
              >
     <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_height="45dp"
+            android:layout_marginTop="10dp"
+            android:gravity="center_vertical"
             android:orientation="horizontal">
     <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/gesture_password"
             android:drawableLeft="@drawable/ssmm"
+            android:layout_marginLeft="10dp"
             android:drawablePadding="10dp"
             android:textSize="17sp"
-            style="@style/MineFragmentIndex"
             android:layout_weight="1"
             android:text="手势密码"/>
     <androidx.appcompat.widget.SwitchCompat
@@ -35,19 +36,22 @@
     <View
             android:layout_width="match_parent"
             android:layout_height="0.2dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:background="@color/cardview_shadow_start_color"/>
     <LinearLayout
+            android:id="@+id/modify_gesture_pwd"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_height="45dp"
+            android:layout_marginTop="5dp"
+            android:gravity="center_vertical"
+            android:foreground="?android:attr/selectableItemBackground"
             android:orientation="horizontal">
         <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:drawablePadding="10dp"
                 android:textSize="17sp"
-                style="@style/MineFragmentIndex"
+                android:layout_marginLeft="10dp"
                 android:layout_weight="1"
                 android:text="修改手势密码"/>
         <TextView
@@ -60,10 +64,9 @@
                 android:drawableRight="@drawable/mine_arrow"
                 />
     </LinearLayout>
-
     <View
             android:layout_width="match_parent"
             android:layout_height="0.2dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:background="@color/cardview_shadow_start_color"/>
 </LinearLayout>

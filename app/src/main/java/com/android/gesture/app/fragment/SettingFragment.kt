@@ -58,8 +58,6 @@ class SettingFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_setting, container, false)
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -68,10 +66,13 @@ class SettingFragment : Fragment() {
             intent.putExtra("openHandLock", true)
             activity?.startActivity(intent)
         }
+        modify_gesture_pwd.setOnClickListener {
+            GestureActivity.actionStartForResult(activity!!, GestureActivity.GestureType.Modify)
+        }
          lifecycleScope.launch{
              isCheck =  GestureManager.getGestureState()
              gesture_switch.isChecked = isCheck
-             gesture_switch.setOnCheckedChangeListener { buttonView, isChecked ->
+             gesture_switch.setOnCheckedChangeListener { _, isChecked ->
                  if (!isChecked) {
                      GestureActivity.actionStartForResult(this@SettingFragment, GestureActivity.GestureType.Cancel)
                  }else{
