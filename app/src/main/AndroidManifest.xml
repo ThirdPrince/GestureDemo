@@ -13,7 +13,7 @@
         <activity
                 android:name=".app.activity.SplashActivity"
                 android:configChanges="orientation|keyboardHidden|screenSize"
-                android:theme="@style/AppTheme.Fullscreen">
+                android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

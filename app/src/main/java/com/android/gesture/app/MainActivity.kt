@@ -19,6 +19,14 @@ import kotlinx.android.synthetic.main.activity_main2.*
  * 模拟主页面
  *
  */
+
+private const val MAIN_INDEX = 0x001
+
+private const val TEST_INDEX = 0x002
+
+private const val SETTING_INDEX = 0x003
+
+
 class MainActivity : BaseActivity() {
 
     companion object{
@@ -39,7 +47,6 @@ class MainActivity : BaseActivity() {
 
     private val mOnNavigationItemSelectedListener =
         BottomNavigationView.OnNavigationItemSelectedListener { item ->
-            hideFragment()
             when (item.itemId) {
                 R.id.navigation_home -> {
                     if (mainFragment.isAdded) {
@@ -85,12 +92,19 @@ class MainActivity : BaseActivity() {
 
     }
 
-    fun Activity.toast(message: CharSequence, duration: Int = Toast.LENGTH_SHORT) {
-        Toast.makeText(this, message, duration).show()
+
+    /**
+     * 选择 Fragment
+     */
+    private fun selectTab(){
+        val fragmentTransaction = supportFragmentManager.beginTransaction()
+        hideFragment(fragmentTransaction)
+
+
+
     }
 
-    private fun hideFragment() {
-        ft = supportFragmentManager.beginTransaction()
+    private fun hideFragment(ft: FragmentTransaction) {
         ft.hide(mainFragment)
         if(testFragment != null) {
             ft.hide(testFragment!!)

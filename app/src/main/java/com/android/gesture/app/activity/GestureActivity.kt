@@ -36,6 +36,8 @@ const val GESTURE_FOR_RESULT = 1024
 
 
 
+
+
 /**
  * 手势密码
  * @author dhl
