@@ -33,15 +33,16 @@ class MainActivity : BaseActivity() {
         private const val TAG = "MainActivity"
     }
 
+
+
     private   var  settingFragment: SettingFragment ?= null
 
 
     private  var  testFragment:TestFragment ?= null
 
 
-    private  val mainFragment:MainFragment by lazy {
-        MainFragment.newInstance("","")
-    }
+    private  var mainFragment:MainFragment ?=null
+
 
     private lateinit var ft:FragmentTransaction
 
@@ -49,30 +50,15 @@ class MainActivity : BaseActivity() {
         BottomNavigationView.OnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.navigation_home -> {
-                    if (mainFragment.isAdded) {
-                        ft.show(mainFragment)
-                    }
-                    ft.commit()
+                   selectTab(MAIN_INDEX)
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.navigation_dashboard -> {
-                    if (testFragment!= null) {
-                        ft.show(testFragment!!)
-                    } else {
-                        testFragment = TestFragment.newInstance("","")
-                        ft.add(R.id.content, testFragment!!,TestFragment.TAG)
-                    }
-                    ft.commit()
+                    selectTab(TEST_INDEX)
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.navigation_notifications -> {
-                    if (settingFragment == null) {
-                        settingFragment = SettingFragment.newInstance("","")
-                        ft.add(R.id.content, settingFragment!!,SettingFragment.TAG)
-                    } else {
-                        ft.show(settingFragment!!)
-                    }
-                    ft.commit()
+                    selectTab(SETTING_INDEX)
                     return@OnNavigationItemSelectedListener true
                 }
 
@@ -84,10 +70,7 @@ class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main2)
-        if(savedInstanceState == null){
-            supportFragmentManager.beginTransaction().add(R.id.content,mainFragment,MainFragment.TAG).commit()
-        }
-
+        selectTab(MAIN_INDEX)
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
 
     }
@@ -96,20 +79,50 @@ class MainActivity : BaseActivity() {
     /**
      * 选择 Fragment
      */
-    private fun selectTab(){
+    private fun selectTab(index:Int){
         val fragmentTransaction = supportFragmentManager.beginTransaction()
         hideFragment(fragmentTransaction)
+        when(index){
+            MAIN_INDEX ->{
+                if (mainFragment == null) {
+                    mainFragment = MainFragment.newInstance("","")
+                    fragmentTransaction.add(R.id.content, mainFragment!!,MainFragment.TAG)
+                } else {
+                    fragmentTransaction.show(mainFragment!!)
+                }
+            }
+
+            TEST_INDEX -> {
+                if (testFragment == null) {
+                    testFragment = TestFragment.newInstance("","")
+                    fragmentTransaction.add(R.id.content, testFragment!!,TestFragment.TAG)
+                } else {
+                    fragmentTransaction.show(testFragment!!)
+                }
+            }
+            SETTING_INDEX -> {
+                if (settingFragment == null) {
+                    settingFragment = SettingFragment.newInstance("","")
+                    fragmentTransaction.add(R.id.content, settingFragment!!,SettingFragment.TAG)
+                } else {
+                    fragmentTransaction.show(settingFragment!!)
+                }
+            }
+        }
+        fragmentTransaction.commit()
 
 
 
     }
 
     private fun hideFragment(ft: FragmentTransaction) {
-        ft.hide(mainFragment)
-        if(testFragment != null) {
+         mainFragment?.let {
+             ft.hide(mainFragment!!)
+         }
+        testFragment?.let {
             ft.hide(testFragment!!)
         }
-        if(settingFragment != null) {
+        settingFragment?.let {
             ft.hide(settingFragment!!)
         }
 

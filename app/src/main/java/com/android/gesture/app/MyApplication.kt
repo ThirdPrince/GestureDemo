@@ -7,6 +7,7 @@ import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.ProcessLifecycleOwner
 import com.android.gesture.app.life.GestureLife
+import com.blankj.utilcode.util.CrashUtils
 import com.blankj.utilcode.util.ProcessUtils
 
 
@@ -45,6 +46,7 @@ class MyApplication :Application() {
             }
         })
 
+        CrashUtils.init()
         gestureLifecycleHandler = GestureLifecycleHandler(this)
         registerActivityListener()
         //lifecycle.addObserver(GestureLife())
