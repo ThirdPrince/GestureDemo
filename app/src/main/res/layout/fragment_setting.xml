@@ -9,7 +9,6 @@
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:layout_marginTop="10dp"
             android:gravity="center_vertical"
             android:orientation="horizontal">
     <TextView
@@ -42,7 +41,6 @@
             android:id="@+id/modify_gesture_pwd"
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:layout_marginTop="5dp"
             android:gravity="center_vertical"
             android:foreground="?android:attr/selectableItemBackground"
             android:orientation="horizontal">
@@ -67,6 +65,5 @@
     <View
             android:layout_width="match_parent"
             android:layout_height="0.2dp"
-            android:layout_marginTop="5dp"
             android:background="@color/cardview_shadow_start_color"/>
 </LinearLayout>
