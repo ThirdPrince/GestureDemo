@@ -5,11 +5,16 @@ import android.app.Application
 import android.content.Context
 import android.nfc.Tag
 import android.os.Bundle
-import androidx.lifecycle.lifecycleScope
+import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.*
 import com.android.gesture.app.activity.GestureActivity
 import com.android.gesture.app.activity.IsOpenHandLock
 import com.android.gesture.app.activity.SplashActivity
+import com.android.gesture.app.fragment.SettingFragment
+import com.android.gesture.app.life.GestureLife
+import com.android.gesture.app.util.FragmentUtil
 import com.android.gesture.app.util.GestureManager
+import com.blankj.utilcode.util.FragmentUtils
 import com.blankj.utilcode.util.SPUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -30,6 +35,10 @@ class GestureLifecycleHandler constructor(context:Context): Application.Activity
     private val uiScope  =  CoroutineScope(Dispatchers.Main)
 
     private var isOpenHandLock = false
+    init {
+
+
+    }
 
 
     /**
@@ -43,22 +52,33 @@ class GestureLifecycleHandler constructor(context:Context): Application.Activity
 
     override fun onActivityResumed(activity: Activity?) {
 
+
+
     }
 
     override fun onActivityStarted(activity: Activity?) {
         if(activityFilter(activity)){
             return
         }
+
+//        val fragment =  FragmentUtils.getTopShow((activity as FragmentActivity).supportFragmentManager)
+//        if(fragment != null) {
+//            EasyLog.e(TAG, "fragments = ${fragment.toString()}")
+//
+
         mActivityCount ++
+        EasyLog.e(TAG,"onActivityStarted mActivityCount = $mActivityCount")
         uiScope.launch {
             withContext(Dispatchers.IO){
                 isOpenHandLock =  GestureManager.getGestureState()
                 if(isOpenHandLock && mActivityCount == 1){
-                    GestureActivity.actionStart(activity!!,GestureActivity.GestureType.Verify)
+                //    GestureActivity.actionStart(activity!!,GestureActivity.GestureType.Verify)
                 }
             }
 
         }
+
+
     }
 
     override fun onActivityDestroyed(activity: Activity?) {
@@ -74,7 +94,7 @@ class GestureLifecycleHandler constructor(context:Context): Application.Activity
             return
         }
         mActivityCount--
-
+        EasyLog.e(TAG,"onActivityStopped mActivityCount = $mActivityCount")
     }
 
     override fun onActivityCreated(activity: Activity?, savedInstanceState: Bundle?) {

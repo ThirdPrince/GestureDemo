@@ -103,10 +103,11 @@ class MainActivity : BaseActivity() {
             SETTING_INDEX -> {
                 if (settingFragment == null) {
                     settingFragment = SettingFragment.newInstance("","")
-                    fragmentTransaction.add(R.id.content, settingFragment!!,SettingFragment.TAG)
+                    fragmentTransaction.replace(R.id.content, settingFragment!!,SettingFragment.TAG)
                 } else {
                     fragmentTransaction.show(settingFragment!!)
                 }
+                //fragmentTransaction.replace(R.id.content, settingFragment!!,SettingFragment.TAG)
             }
         }
         fragmentTransaction.commit()

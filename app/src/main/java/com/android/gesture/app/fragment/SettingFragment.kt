@@ -12,13 +12,17 @@ import android.view.ViewGroup
 import android.widget.CompoundButton
 import android.widget.RadioGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.lifecycle.lifecycleScope
 
 import com.android.gesture.R
+import com.android.gesture.app.OnStartGestureLock
 import com.android.gesture.app.activity.GESTURE_FOR_RESULT
 import com.android.gesture.app.activity.GestureActivity
 import com.android.gesture.app.activity.IsOpenHandLock
+import com.android.gesture.app.life.GestureLife
 import com.android.gesture.app.util.GestureManager
+import com.blankj.utilcode.util.ActivityUtils
 import com.blankj.utilcode.util.SPUtils
 import com.blankj.utilcode.util.ToastUtils
 import kotlinx.android.synthetic.main.fragment_setting.*
@@ -35,12 +39,15 @@ private const val ARG_PARAM2 = "param2"
 /**
  * 设置手势密码页面
  */
-class SettingFragment : Fragment() {
+class SettingFragment : Fragment(),OnStartGestureLock {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
 
     private  var isCheck = false
+
+
+    public  var waitingGesture  = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,6 +55,7 @@ class SettingFragment : Fragment() {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
+        ProcessLifecycleOwner.get().lifecycle.addObserver(GestureLife(this))
     }
 
     override fun onCreateView(
@@ -61,6 +69,7 @@ class SettingFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         gesture_password.setOnClickListener {
             var intent = Intent(activity, GestureActivity::class.java)
             intent.putExtra("openHandLock", true)
@@ -96,6 +105,8 @@ class SettingFragment : Fragment() {
         }
     }
 
+
+
     companion object {
 
         public const val TAG  = "SettingFragment"
@@ -108,5 +119,21 @@ class SettingFragment : Fragment() {
                     putString(ARG_PARAM2, param2)
                 }
             }
+    }
+
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        if(hidden){
+
+        }else{
+            if(waitingGesture){
+                waitingGesture = false
+                GestureActivity.actionStart(activity!!,GestureActivity.GestureType.Verify)
+            }
+        }
+    }
+
+    override fun onStartGesture() {
+        GestureActivity.actionStart(activity!!,GestureActivity.GestureType.Verify)
     }
 }

@@ -26,25 +26,25 @@ class MyApplication :Application() {
 
     override fun onCreate() {
         super.onCreate()
-        ProcessLifecycleOwner.get().lifecycle.addObserver(object :LifecycleObserver{
-            @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
-            fun onCreate() {
-                EasyLog.e(TAG,"==ON_CREATE==")
-                // GestureActivity.
-            }
-
-            @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
-            fun onResume() {
-                EasyLog.e(TAG,"==ON_RESUME==")
-
-            }
-
-            @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
-            fun onPause() {
-                EasyLog.e(TAG,"==ON_PAUSE==")
-
-            }
-        })
+//        ProcessLifecycleOwner.get().lifecycle.addObserver(object :LifecycleObserver{
+//            @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
+//            fun onCreate() {
+//                EasyLog.e(TAG,"==ON_CREATE==")
+//                // GestureActivity.
+//            }
+//
+//            @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
+//            fun onResume() {
+//                EasyLog.e(TAG,"==ON_RESUME==")
+//
+//            }
+//
+//            @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
+//            fun onPause() {
+//                EasyLog.e(TAG,"==ON_PAUSE==")
+//
+//            }
+//        })
 
         CrashUtils.init()
         gestureLifecycleHandler = GestureLifecycleHandler(this)
