@@ -61,11 +61,6 @@ class GestureLifecycleHandler constructor(context:Context): Application.Activity
             return
         }
 
-//        val fragment =  FragmentUtils.getTopShow((activity as FragmentActivity).supportFragmentManager)
-//        if(fragment != null) {
-//            EasyLog.e(TAG, "fragments = ${fragment.toString()}")
-//
-
         mActivityCount ++
         EasyLog.e(TAG,"onActivityStarted mActivityCount = $mActivityCount")
         uiScope.launch {
