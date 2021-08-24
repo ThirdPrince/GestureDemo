@@ -10,6 +10,7 @@ import android.widget.Toast
 import com.android.gesture.R
 import com.android.gesture.app.activity.SecActivity
 import com.android.gesture.app.fragment.MainFragment
+import com.android.gesture.app.fragment.ManageMoneyFragment
 import com.android.gesture.app.fragment.SettingFragment
 import com.android.gesture.app.fragment.TestFragment
 import com.android.gesture.app.view.BaseActivity
@@ -22,9 +23,13 @@ import kotlinx.android.synthetic.main.activity_main2.*
 
 private const val MAIN_INDEX = 0x001
 
-private const val TEST_INDEX = 0x002
 
-private const val SETTING_INDEX = 0x003
+private const val MONEY_INDEX = 0x002
+
+
+private const val TEST_INDEX = 0x003
+
+private const val SETTING_INDEX = 0x004
 
 
 class MainActivity : BaseActivity() {
@@ -36,6 +41,8 @@ class MainActivity : BaseActivity() {
 
 
     private   var  settingFragment: SettingFragment ?= null
+
+    private var manageMoneyFragment:ManageMoneyFragment ? = null
 
 
     private  var  testFragment:TestFragment ?= null
@@ -51,6 +58,10 @@ class MainActivity : BaseActivity() {
             when (item.itemId) {
                 R.id.navigation_home -> {
                    selectTab(MAIN_INDEX)
+                    return@OnNavigationItemSelectedListener true
+                }
+                R.id.navigation_manage_money ->{
+                    selectTab(MONEY_INDEX)
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.navigation_dashboard -> {
@@ -92,6 +103,15 @@ class MainActivity : BaseActivity() {
                 }
             }
 
+            MONEY_INDEX  ->{
+                if (manageMoneyFragment == null) {
+                    manageMoneyFragment = ManageMoneyFragment.newInstance("","")
+                    fragmentTransaction.add(R.id.content, manageMoneyFragment!!,ManageMoneyFragment.TAG)
+                } else {
+                    fragmentTransaction.show(manageMoneyFragment!!)
+                }
+            }
+
             TEST_INDEX -> {
                 if (testFragment == null) {
                     testFragment = TestFragment.newInstance("","")
@@ -107,7 +127,6 @@ class MainActivity : BaseActivity() {
                 } else {
                     fragmentTransaction.show(settingFragment!!)
                 }
-                //fragmentTransaction.replace(R.id.content, settingFragment!!,SettingFragment.TAG)
             }
         }
         fragmentTransaction.commit()
@@ -120,6 +139,9 @@ class MainActivity : BaseActivity() {
          mainFragment?.let {
              ft.hide(mainFragment!!)
          }
+        manageMoneyFragment?.let {
+            ft.hide(manageMoneyFragment!!)
+        }
         testFragment?.let {
             ft.hide(testFragment!!)
         }

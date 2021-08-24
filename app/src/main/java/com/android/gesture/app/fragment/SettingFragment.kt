@@ -55,7 +55,7 @@ class SettingFragment : Fragment(),OnStartGestureLock {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
-        ProcessLifecycleOwner.get().lifecycle.addObserver(GestureLife(this))
+
     }
 
     override fun onCreateView(
@@ -121,17 +121,7 @@ class SettingFragment : Fragment(),OnStartGestureLock {
             }
     }
 
-    override fun onHiddenChanged(hidden: Boolean) {
-        super.onHiddenChanged(hidden)
-        if(hidden){
 
-        }else{
-            if(waitingGesture){
-                waitingGesture = false
-                GestureActivity.actionStart(activity!!,GestureActivity.GestureType.Verify)
-            }
-        }
-    }
 
     override fun onStartGesture() {
         GestureActivity.actionStart(activity!!,GestureActivity.GestureType.Verify)

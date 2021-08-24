@@ -4,6 +4,7 @@
     <string name="title_home">首页</string>
     <string name="title_dashboard">测试</string>
     <string name="title_notifications">设置</string>
+    <string name="title_manage_money">理财</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="main_fragment">这是 主页面 </string>

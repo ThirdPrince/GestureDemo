@@ -7,6 +7,11 @@
             android:title="@string/title_home"/>
 
     <item
+            android:id="@+id/navigation_manage_money"
+            android:icon="@drawable/ic_dashboard_black_24dp"
+            android:title="@string/title_manage_money"/>
+
+    <item
             android:id="@+id/navigation_dashboard"
             android:icon="@drawable/ic_dashboard_black_24dp"
             android:title="@string/title_dashboard"/>

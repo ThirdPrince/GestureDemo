@@ -8,6 +8,7 @@ import androidx.lifecycle.OnLifecycleEvent
 import com.android.gesture.app.GestureLifecycleHandler
 import com.android.gesture.app.OnStartGestureLock
 import com.android.gesture.app.activity.GestureActivity
+import com.android.gesture.app.fragment.GestureLockFragment
 import com.android.gesture.app.fragment.SettingFragment
 import com.android.gesture.app.util.GestureManager
 import com.blankj.utilcode.util.ActivityUtils
@@ -29,7 +30,7 @@ import kotlinx.coroutines.withContext
 
 private const val TAG = "GestureLife"
 
- open class GestureLife(val fragment: SettingFragment) :LifecycleObserver{
+ open class GestureLife(val fragment: GestureLockFragment) :LifecycleObserver{
 
 
      private val uiScope  =  CoroutineScope(Dispatchers.Main)
