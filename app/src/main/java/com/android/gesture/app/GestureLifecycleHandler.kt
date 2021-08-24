@@ -14,8 +14,10 @@ import com.android.gesture.app.fragment.SettingFragment
 import com.android.gesture.app.life.GestureLife
 import com.android.gesture.app.util.FragmentUtil
 import com.android.gesture.app.util.GestureManager
+import com.blankj.utilcode.util.ActivityUtils
 import com.blankj.utilcode.util.FragmentUtils
 import com.blankj.utilcode.util.SPUtils
+import com.blankj.utilcode.util.Utils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -62,7 +64,7 @@ class GestureLifecycleHandler constructor(context:Context): Application.Activity
         }
 
         mActivityCount ++
-        EasyLog.e(TAG,"onActivityStarted mActivityCount = $mActivityCount")
+       // EasyLog.e(TAG,"onActivityStarted mActivityCount = $mActivityCount")
         uiScope.launch {
             withContext(Dispatchers.IO){
                 isOpenHandLock =  GestureManager.getGestureState()
@@ -72,7 +74,7 @@ class GestureLifecycleHandler constructor(context:Context): Application.Activity
             }
 
         }
-
+        val manActivity = ActivityUtils.getTopActivity()
 
     }
 
@@ -89,7 +91,7 @@ class GestureLifecycleHandler constructor(context:Context): Application.Activity
             return
         }
         mActivityCount--
-        EasyLog.e(TAG,"onActivityStopped mActivityCount = $mActivityCount")
+        //EasyLog.e(TAG,"onActivityStopped mActivityCount = $mActivityCount")
     }
 
     override fun onActivityCreated(activity: Activity?, savedInstanceState: Bundle?) {

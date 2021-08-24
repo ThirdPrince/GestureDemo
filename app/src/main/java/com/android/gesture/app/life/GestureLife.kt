@@ -42,6 +42,7 @@ private const val TAG = "GestureLife"
        EasyLog.e(TAG,"==ON_RESUME==")
         if(fragment.isHidden){
             EasyLog.e(TAG,"等待台跳出手势密码")
+
            fragment.waitingGesture = true
 
         }
@@ -65,6 +66,6 @@ private const val TAG = "GestureLife"
     fun disconnectListener() {
         EasyLog.e(TAG,"==ON_PAUSE==")
         onStartGestureLock = null
-        fragment.waitingGesture = true
+       // fragment.waitingGesture = true
     }
 }

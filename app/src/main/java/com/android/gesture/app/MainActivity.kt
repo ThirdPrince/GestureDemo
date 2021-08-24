@@ -26,7 +26,6 @@ private const val MAIN_INDEX = 0x001
 
 private const val MONEY_INDEX = 0x002
 
-
 private const val TEST_INDEX = 0x003
 
 private const val SETTING_INDEX = 0x004
@@ -51,7 +50,6 @@ class MainActivity : BaseActivity() {
     private  var mainFragment:MainFragment ?=null
 
 
-    private lateinit var ft:FragmentTransaction
 
     private val mOnNavigationItemSelectedListener =
         BottomNavigationView.OnNavigationItemSelectedListener { item ->
@@ -97,7 +95,7 @@ class MainActivity : BaseActivity() {
             MAIN_INDEX ->{
                 if (mainFragment == null) {
                     mainFragment = MainFragment.newInstance("","")
-                    fragmentTransaction.add(R.id.content, mainFragment!!,MainFragment.TAG)
+                    fragmentTransaction.add(R.id.content, mainFragment!!,MainFragment::class.java.simpleName)
                 } else {
                     fragmentTransaction.show(mainFragment!!)
                 }
@@ -106,7 +104,7 @@ class MainActivity : BaseActivity() {
             MONEY_INDEX  ->{
                 if (manageMoneyFragment == null) {
                     manageMoneyFragment = ManageMoneyFragment.newInstance("","")
-                    fragmentTransaction.add(R.id.content, manageMoneyFragment!!,ManageMoneyFragment.TAG)
+                    fragmentTransaction.add(R.id.content, manageMoneyFragment!!,ManageMoneyFragment::class.java.simpleName)
                 } else {
                     fragmentTransaction.show(manageMoneyFragment!!)
                 }
@@ -115,7 +113,7 @@ class MainActivity : BaseActivity() {
             TEST_INDEX -> {
                 if (testFragment == null) {
                     testFragment = TestFragment.newInstance("","")
-                    fragmentTransaction.add(R.id.content, testFragment!!,TestFragment.TAG)
+                    fragmentTransaction.add(R.id.content, testFragment!!,TestFragment::class.java.simpleName)
                 } else {
                     fragmentTransaction.show(testFragment!!)
                 }
@@ -123,7 +121,7 @@ class MainActivity : BaseActivity() {
             SETTING_INDEX -> {
                 if (settingFragment == null) {
                     settingFragment = SettingFragment.newInstance("","")
-                    fragmentTransaction.replace(R.id.content, settingFragment!!,SettingFragment.TAG)
+                    fragmentTransaction.add(R.id.content, settingFragment!!,SettingFragment::class.java.simpleName)
                 } else {
                     fragmentTransaction.show(settingFragment!!)
                 }

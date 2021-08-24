@@ -30,6 +30,15 @@ class ManageMoneyFragment : GestureLockFragment() {
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+        EasyLog.e(TAG,"onStart")
+    }
+    override fun onResume() {
+        super.onResume()
+        EasyLog.e(TAG,"onResume")
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
