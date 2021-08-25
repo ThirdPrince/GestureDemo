@@ -18,6 +18,7 @@ import androidx.lifecycle.lifecycleScope
 import com.android.gesture.R
 import com.android.gesture.app.OnStartGestureLock
 import com.android.gesture.app.activity.GESTURE_FOR_RESULT
+import com.android.gesture.app.activity.GESTURE_SETTING_TYPE
 import com.android.gesture.app.activity.GestureActivity
 import com.android.gesture.app.activity.IsOpenHandLock
 import com.android.gesture.app.life.GestureLife
@@ -70,24 +71,28 @@ class SettingFragment : Fragment(),OnStartGestureLock {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        gesture_password.setOnClickListener {
-            var intent = Intent(activity, GestureActivity::class.java)
-            intent.putExtra("openHandLock", true)
-            activity?.startActivity(intent)
-        }
         modify_gesture_pwd.setOnClickListener {
-            GestureActivity.actionStartForResult(activity!!, GestureActivity.GestureType.Modify)
+            GestureActivity.actionStartForResult(activity!!, GestureActivity.GestureType.Modify,GestureActivity.GestureSettingType.AppType)
         }
          lifecycleScope.launch{
              isCheck =  GestureManager.getGestureState()
              gesture_switch.isChecked = isCheck
              gesture_switch.setOnCheckedChangeListener { _, isChecked ->
                  if (!isChecked) {
-                     GestureActivity.actionStartForResult(this@SettingFragment, GestureActivity.GestureType.Cancel)
+                     GestureActivity.actionStartForResult(this@SettingFragment, GestureActivity.GestureType.Cancel,GestureActivity.GestureSettingType.AppType)
                  }else{
-                     GestureActivity.actionStartForResult(activity!!, GestureActivity.GestureType.Setting)
+                     gesture_switch_by_money.isChecked = false
+                     GestureActivity.actionStartForResult(activity!!, GestureActivity.GestureType.Setting,GestureActivity.GestureSettingType.AppType)
                  }
 
+             }
+             gesture_switch_by_money.setOnCheckedChangeListener { buttonView, isChecked ->
+                 if (!isChecked) {
+                     GestureActivity.actionStartForResult(this@SettingFragment, GestureActivity.GestureType.Cancel,GestureActivity.GestureSettingType.FragmentType)
+                 }else{
+                     gesture_switch.isChecked = false
+                     GestureActivity.actionStartForResult(activity!!, GestureActivity.GestureType.Setting,GestureActivity.GestureSettingType.FragmentType)
+                 }
              }
         }
 

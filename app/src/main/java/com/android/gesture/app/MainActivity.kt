@@ -7,6 +7,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.fragment.app.FragmentTransaction
 import android.util.Log
 import android.widget.Toast
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.ProcessLifecycleOwner
 import com.android.gesture.R
 import com.android.gesture.app.activity.SecActivity
 import com.android.gesture.app.fragment.MainFragment
@@ -81,6 +83,7 @@ class MainActivity : BaseActivity() {
         setContentView(R.layout.activity_main2)
         selectTab(MAIN_INDEX)
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+
 
     }
 

@@ -32,6 +32,8 @@ private const val GestureTypePara = "GestureType"
 
 const val IsOpenHandLock = "isOpenHandLock"
 
+const val GESTURE_SETTING_TYPE = "gesture_setting_type"
+
 const val GESTURE_FOR_RESULT = 1024
 
 
@@ -59,6 +61,15 @@ class GestureActivity : AppCompatActivity() {
         Verify(1),
         Modify(2);
 
+    }
+
+    /**
+     * 手势密码支持两种，一个是进入应用时（AppType）,一个是进入理财时（FragmentType）
+     */
+    enum class GestureSettingType(i: Int) :Serializable{
+
+        AppType(0),
+        FragmentType(1)
     }
     /**
      * 绘制手势密码时 ，上面展示小的手势密码 流程图
@@ -88,6 +99,8 @@ class GestureActivity : AppCompatActivity() {
 
     private var gestureType :GestureType ?= null
 
+    private var gestureSettingType:GestureSettingType ?= null;
+
 
     /**
      * 对外提供启动入口
@@ -109,10 +122,19 @@ class GestureActivity : AppCompatActivity() {
             activity?.startActivityForResult(intent,GESTURE_FOR_RESULT)
 
         }
+        fun actionStartForResult(activity: Activity,gestureType: GestureType,gestureSettingType: GestureSettingType){
+            var  intent = Intent(activity,GestureActivity::class.java).apply {
+                putExtra(GestureTypePara,gestureType)
+                putExtra(GESTURE_SETTING_TYPE,gestureSettingType)
+            }
+            activity?.startActivityForResult(intent,GESTURE_FOR_RESULT)
 
-        fun actionStartForResult(fragment: Fragment,gestureType: GestureType){
+        }
+
+        fun actionStartForResult(fragment: Fragment,gestureType: GestureType,gestureSettingType: GestureSettingType){
             var  intent = Intent(fragment.activity,GestureActivity::class.java).apply {
                 putExtra(GestureTypePara,gestureType)
+                putExtra(GESTURE_SETTING_TYPE,gestureSettingType)
             }
             fragment?.startActivityForResult(intent,RESULT_FIRST_USER)
         }
@@ -130,6 +152,7 @@ class GestureActivity : AppCompatActivity() {
     private fun initData() {
         pwd = SPUtils.getInstance().getString(PASSWORD, "")
         gestureType = intent.getSerializableExtra(GestureTypePara) as GestureType?
+        gestureSettingType = intent.getSerializableExtra(GESTURE_SETTING_TYPE) as GestureSettingType?
         when(gestureType){
             GestureType.Setting -> {
                 pwd = ""
@@ -188,7 +211,15 @@ class GestureActivity : AppCompatActivity() {
                     }
                     GestureType.Setting ->{
                         lifecycleScope.launch{
-                            GestureManager.setGestureState(true,md5.toMd5(it,""))
+                            when(gestureSettingType){
+                                GestureSettingType.AppType ->{
+                                    GestureManager.setGestureState(true,md5.toMd5(it,""))
+                                }
+                                GestureSettingType.FragmentType ->{
+                                    GestureManager.setGestureState(true,md5.toMd5(it,""), GestureSettingType.FragmentType)
+                                }
+                            }
+
                             val data = Intent()
                             setResult(RESULT_OK, data)
                             finish()

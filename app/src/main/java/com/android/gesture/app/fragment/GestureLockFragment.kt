@@ -33,7 +33,6 @@ abstract class GestureLockFragment : Fragment() {
     // TODO: Rename and change types of parameters
     public  var waitingGesture  = false
 
-   public var isViewCreated = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,17 +42,7 @@ abstract class GestureLockFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        lifecycleScope.launch {
-//            withContext(Dispatchers.IO){
-//                val  isOpenHandLock =  GestureManager.getGestureState()
-//                if(isOpenHandLock ){
-//                    GestureActivity.actionStart(ActivityUtils.getTopActivity(),GestureActivity.GestureType.Verify)
-//                }
-//            }
-//
-//        }
         ProcessLifecycleOwner.get().lifecycle.addObserver(GestureLife(this))
-        isViewCreated = true;
     }
 
 

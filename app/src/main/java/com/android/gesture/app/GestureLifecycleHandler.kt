@@ -64,12 +64,12 @@ class GestureLifecycleHandler constructor(context:Context): Application.Activity
         }
 
         mActivityCount ++
-       // EasyLog.e(TAG,"onActivityStarted mActivityCount = $mActivityCount")
+        EasyLog.e(TAG,"onForeground = $mActivityCount")
         uiScope.launch {
             withContext(Dispatchers.IO){
-                isOpenHandLock =  GestureManager.getGestureState()
+                isOpenHandLock =  GestureManager.getAppGestureState()
                 if(isOpenHandLock && mActivityCount == 1){
-                //    GestureActivity.actionStart(activity!!,GestureActivity.GestureType.Verify)
+                   GestureActivity.actionStart(activity!!,GestureActivity.GestureType.Verify)
                 }
             }
 
@@ -91,7 +91,8 @@ class GestureLifecycleHandler constructor(context:Context): Application.Activity
             return
         }
         mActivityCount--
-        //EasyLog.e(TAG,"onActivityStopped mActivityCount = $mActivityCount")
+        EasyLog.e(TAG,"onBackground = $mActivityCount")
+
     }
 
     override fun onActivityCreated(activity: Activity?, savedInstanceState: Bundle?) {

@@ -50,7 +50,7 @@ private const val TAG = "GestureLife"
             EasyLog.e(TAG,"==isVisible==")
             uiScope.launch {
                 withContext(Dispatchers.IO){
-                    val  isOpenHandLock =  GestureManager.getGestureState()
+                    val  isOpenHandLock =  GestureManager.getFragmentGestureState()
                     if(isOpenHandLock ){
                           GestureActivity.actionStart(ActivityUtils.getTopActivity(),GestureActivity.GestureType.Verify)
                     }
