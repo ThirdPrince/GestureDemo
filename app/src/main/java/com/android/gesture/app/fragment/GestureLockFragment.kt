@@ -21,8 +21,20 @@ private const val ARG_PARAM2 = "param2"
 private const val TAG = "GestureLockFragment"
 
 abstract class GestureLockFragment : Fragment() {
+
+
     // TODO: Rename and change types of parameters
-    public  var waitingGesture  = false
+      var waitingGesture  = false
+
+     /**
+     * 是否已经展示过手势密码
+     */
+
+
+
+    companion object{
+         var showGesture = false
+    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,11 +57,10 @@ abstract class GestureLockFragment : Fragment() {
     override fun onHiddenChanged(hidden: Boolean) {
         super.onHiddenChanged(hidden)
         EasyLog.e(TAG,"onHiddenChanged")
-        if(hidden){
-
-        }else{
-            if(waitingGesture){
+        if(!hidden){
+            if(waitingGesture && !showGesture){
                 waitingGesture = false
+                showGesture = true
                 GestureActivity.actionStart(activity!!, GestureActivity.GestureState.Verify)
             }
         }

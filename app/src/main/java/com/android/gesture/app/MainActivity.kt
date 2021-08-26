@@ -11,10 +11,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ProcessLifecycleOwner
 import com.android.gesture.R
 import com.android.gesture.app.activity.SecActivity
-import com.android.gesture.app.fragment.MainFragment
-import com.android.gesture.app.fragment.ManageMoneyFragment
-import com.android.gesture.app.fragment.SettingFragment
-import com.android.gesture.app.fragment.TestFragment
+import com.android.gesture.app.fragment.*
 import com.android.gesture.app.view.BaseActivity
 import kotlinx.android.synthetic.main.activity_main2.*
 
@@ -31,6 +28,8 @@ private const val MONEY_INDEX = 0x002
 private const val TEST_INDEX = 0x003
 
 private const val SETTING_INDEX = 0x004
+
+private const val MINE_INDEX = 0x005
 
 
 class MainActivity : BaseActivity() {
@@ -51,6 +50,8 @@ class MainActivity : BaseActivity() {
 
     private  var mainFragment:MainFragment ?=null
 
+    private var mineFragment:MineFragment ? = null
+
 
 
     private val mOnNavigationItemSelectedListener =
@@ -70,6 +71,10 @@ class MainActivity : BaseActivity() {
                 }
                 R.id.navigation_notifications -> {
                     selectTab(SETTING_INDEX)
+                    return@OnNavigationItemSelectedListener true
+                }
+                R.id.navigation_mine ->{
+                    selectTab(MINE_INDEX)
                     return@OnNavigationItemSelectedListener true
                 }
 
@@ -129,6 +134,14 @@ class MainActivity : BaseActivity() {
                     fragmentTransaction.show(settingFragment!!)
                 }
             }
+            MINE_INDEX ->{
+                if (mineFragment == null) {
+                    mineFragment = MineFragment.newInstance("","")
+                    fragmentTransaction.add(R.id.content, mineFragment!!,MineFragment::class.java.simpleName)
+                } else {
+                    fragmentTransaction.show(mineFragment!!)
+                }
+            }
         }
         fragmentTransaction.commit()
 
@@ -148,6 +161,9 @@ class MainActivity : BaseActivity() {
         }
         settingFragment?.let {
             ft.hide(settingFragment!!)
+        }
+        mineFragment?.let {
+            ft.hide(mineFragment!!)
         }
 
     }

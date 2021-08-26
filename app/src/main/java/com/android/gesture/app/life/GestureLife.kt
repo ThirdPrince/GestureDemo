@@ -29,13 +29,12 @@ private const val TAG = "GestureLife"
      private val uiScope  =  CoroutineScope(Dispatchers.Main)
 
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
+    @OnLifecycleEvent(Lifecycle.Event.ON_START)
     fun onVisible() {
        EasyLog.e(TAG,"==ON_RESUME==")
         if(fragment.isHidden){
             EasyLog.e(TAG,"等待台跳出手势密码")
-
-           fragment.waitingGesture = true
+            fragment.waitingGesture = true
 
         }
         if(!fragment.isHidden||fragment.isVisible){
@@ -43,7 +42,8 @@ private const val TAG = "GestureLife"
             uiScope.launch {
                 withContext(Dispatchers.IO){
                     val  isOpenHandLock =  GestureManager.getFragmentGestureState()
-                    if(isOpenHandLock ){
+                    if(isOpenHandLock  && !GestureLockFragment.showGesture){
+                          GestureLockFragment.showGesture = true
                           GestureActivity.actionStart(ActivityUtils.getTopActivity(),GestureActivity.GestureState.Verify)
                     }
                 }
@@ -53,9 +53,10 @@ private const val TAG = "GestureLife"
 
 
     }
+     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
+     fun onBackground(){
+         EasyLog.e(TAG,"==onBackground==")
+         GestureLockFragment.showGesture = false
+     }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
-    fun disconnectListener() {
-        EasyLog.e(TAG,"==ON_PAUSE==")
-    }
 }
