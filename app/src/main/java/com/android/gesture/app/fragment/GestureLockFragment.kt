@@ -2,19 +2,10 @@ package com.android.gesture.app.fragment
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.lifecycle.ProcessLifecycleOwner
-import androidx.lifecycle.lifecycleScope
-import com.android.gesture.R
 import com.android.gesture.app.activity.GestureActivity
 import com.android.gesture.app.life.GestureLife
-import com.android.gesture.app.util.GestureManager
-import com.blankj.utilcode.util.ActivityUtils
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -59,7 +50,7 @@ abstract class GestureLockFragment : Fragment() {
         }else{
             if(waitingGesture){
                 waitingGesture = false
-                GestureActivity.actionStart(activity!!, GestureActivity.GestureType.Verify)
+                GestureActivity.actionStart(activity!!, GestureActivity.GestureState.Verify)
             }
         }
     }

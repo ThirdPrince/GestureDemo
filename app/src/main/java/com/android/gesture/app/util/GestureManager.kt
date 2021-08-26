@@ -46,5 +46,11 @@ object GestureManager {
             SPUtils.getInstance().remove(GESTURE_SETTING_TYPE)
         }
     }
+    suspend fun setAppGestureState() = withContext(Dispatchers.IO){
+        SPUtils.getInstance().put(GESTURE_SETTING_TYPE, GestureActivity.GestureSettingType.AppType.ordinal)
+    }
+    suspend fun setSFragmentState() = withContext(Dispatchers.IO){
+        SPUtils.getInstance().put(GESTURE_SETTING_TYPE, GestureActivity.GestureSettingType.FragmentType.ordinal)
+    }
 
 }

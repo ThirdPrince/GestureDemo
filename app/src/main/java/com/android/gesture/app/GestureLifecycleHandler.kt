@@ -3,21 +3,11 @@ package com.android.gesture.app
 import android.app.Activity
 import android.app.Application
 import android.content.Context
-import android.nfc.Tag
 import android.os.Bundle
-import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.*
 import com.android.gesture.app.activity.GestureActivity
-import com.android.gesture.app.activity.IsOpenHandLock
 import com.android.gesture.app.activity.SplashActivity
-import com.android.gesture.app.fragment.SettingFragment
-import com.android.gesture.app.life.GestureLife
-import com.android.gesture.app.util.FragmentUtil
 import com.android.gesture.app.util.GestureManager
 import com.blankj.utilcode.util.ActivityUtils
-import com.blankj.utilcode.util.FragmentUtils
-import com.blankj.utilcode.util.SPUtils
-import com.blankj.utilcode.util.Utils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -69,7 +59,7 @@ class GestureLifecycleHandler constructor(context:Context): Application.Activity
             withContext(Dispatchers.IO){
                 isOpenHandLock =  GestureManager.getAppGestureState()
                 if(isOpenHandLock && mActivityCount == 1){
-                   GestureActivity.actionStart(activity!!,GestureActivity.GestureType.Verify)
+                   GestureActivity.actionStart(activity!!,GestureActivity.GestureState.Verify)
                 }
             }
 

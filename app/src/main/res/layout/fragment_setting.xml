@@ -7,9 +7,11 @@
               android:orientation="vertical"
              >
     <LinearLayout
+            android:id="@+id/app_gesture_lay"
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:gravity="center_vertical"
+            android:descendantFocusability="beforeDescendants"
             android:orientation="horizontal">
     <TextView
             android:layout_width="0dp"
@@ -27,6 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="15dp"
             android:longClickable="false"
+            android:clickable="false"
             android:textColor="#ffffff"
           />
     </LinearLayout>
@@ -36,9 +39,11 @@
             android:layout_marginTop="5dp"
             android:background="@color/cardview_shadow_start_color"/>
     <LinearLayout
+            android:id="@+id/fragment_gesture_lay"
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:gravity="center_vertical"
+            android:descendantFocusability="beforeDescendants"
             android:orientation="horizontal">
         <TextView
                 android:layout_width="match_parent"
@@ -56,6 +61,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="15dp"
                 android:longClickable="false"
+                android:clickable="false"
                 android:textColor="#ffffff"
                 />
     </LinearLayout>

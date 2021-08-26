@@ -54,7 +54,7 @@ class GestureActivity : AppCompatActivity() {
      *  Verify (验证，一般输入一次，成功后关闭）
      *  Modify(verify - setting)
      */
-    enum class GestureType(i: Int) :Serializable{
+    enum class GestureState(i: Int) :Serializable{
 
         Cancel(-2),
         Setting(-1),
@@ -97,7 +97,7 @@ class GestureActivity : AppCompatActivity() {
         findViewById<ImageView>(R.id.person_img)
     }
 
-    private var gestureType :GestureType ?= null
+    private var gestureType :GestureState ?= null
 
     private var gestureSettingType:GestureSettingType ?= null;
 
@@ -107,7 +107,7 @@ class GestureActivity : AppCompatActivity() {
      */
     companion object{
 
-        fun actionStart(activity: Activity,gestureType: GestureType){
+        fun actionStart(activity: Activity,gestureType: GestureState){
             var  intent = Intent(activity,GestureActivity::class.java).apply {
                 putExtra(GestureTypePara,gestureType)
             }
@@ -115,14 +115,14 @@ class GestureActivity : AppCompatActivity() {
 
         }
 
-        fun actionStartForResult(activity: Activity,gestureType: GestureType){
+        fun actionStartForResult(activity: Activity,gestureType: GestureState){
             var  intent = Intent(activity,GestureActivity::class.java).apply {
                 putExtra(GestureTypePara,gestureType)
             }
             activity?.startActivityForResult(intent,GESTURE_FOR_RESULT)
 
         }
-        fun actionStartForResult(activity: Activity,gestureType: GestureType,gestureSettingType: GestureSettingType){
+        fun actionStartForResult(activity: Activity, gestureType: GestureState, gestureSettingType: GestureSettingType){
             var  intent = Intent(activity,GestureActivity::class.java).apply {
                 putExtra(GestureTypePara,gestureType)
                 putExtra(GESTURE_SETTING_TYPE,gestureSettingType)
@@ -131,7 +131,7 @@ class GestureActivity : AppCompatActivity() {
 
         }
 
-        fun actionStartForResult(fragment: Fragment,gestureType: GestureType,gestureSettingType: GestureSettingType){
+        fun actionStartForResult(fragment: Fragment, gestureType: GestureState, gestureSettingType: GestureSettingType){
             var  intent = Intent(fragment.activity,GestureActivity::class.java).apply {
                 putExtra(GestureTypePara,gestureType)
                 putExtra(GESTURE_SETTING_TYPE,gestureSettingType)
@@ -151,16 +151,16 @@ class GestureActivity : AppCompatActivity() {
 
     private fun initData() {
         pwd = SPUtils.getInstance().getString(PASSWORD, "")
-        gestureType = intent.getSerializableExtra(GestureTypePara) as GestureType?
+        gestureType = intent.getSerializableExtra(GestureTypePara) as GestureState?
         gestureSettingType = intent.getSerializableExtra(GESTURE_SETTING_TYPE) as GestureSettingType?
         when(gestureType){
-            GestureType.Setting -> {
+            GestureState.Setting -> {
                 pwd = ""
                 pwdVerify = false
                 personImg?.visibility = View.GONE
                 mPwdViewSmall?.visibility = View.VISIBLE
             }
-            GestureType.Verify ->    passWordText?.setText(R.string.more_watch)
+            GestureState.Verify ->    passWordText?.setText(R.string.more_watch)
             else ->  ""
         }
 
@@ -204,12 +204,11 @@ class GestureActivity : AppCompatActivity() {
             }
             if (passed) {
                 when(gestureType) {
-                    GestureType.Verify ->{
-//                        val data = Intent()
-//                        setResult(RESULT_OK, data)
-                        finish()
+                    GestureState.Verify ->{
+                      finish()
+
                     }
-                    GestureType.Setting ->{
+                    GestureState.Setting ->{
                         lifecycleScope.launch{
                             when(gestureSettingType){
                                 GestureSettingType.AppType ->{
@@ -226,14 +225,17 @@ class GestureActivity : AppCompatActivity() {
                         }
                     }
 
-                    GestureType.Modify ->{
-                        GestureActivity.actionStartForResult(this, GestureActivity.GestureType.Setting)
+                    GestureState.Modify ->{
+                        GestureActivity.actionStartForResult(this, GestureActivity.GestureState.Setting)
                         finish()
                     }
-                    GestureType.Cancel -> {
-                        val data = Intent()
-                        setResult(RESULT_OK, data)
-                        finish()
+                    GestureState.Cancel -> {
+                        lifecycleScope.launch{
+                            GestureManager.setGestureState(false)
+                            val data = Intent()
+                            setResult(RESULT_OK, data)
+                            finish()
+                        }
                     }
 
                     else -> finish()

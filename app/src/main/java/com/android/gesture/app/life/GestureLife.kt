@@ -1,19 +1,12 @@
 package com.android.gesture.app.life
 
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
-import com.android.gesture.app.GestureLifecycleHandler
-import com.android.gesture.app.OnStartGestureLock
 import com.android.gesture.app.activity.GestureActivity
 import com.android.gesture.app.fragment.GestureLockFragment
-import com.android.gesture.app.fragment.SettingFragment
 import com.android.gesture.app.util.GestureManager
 import com.blankj.utilcode.util.ActivityUtils
-import com.blankj.utilcode.util.FragmentUtils
-import com.blankj.utilcode.util.Utils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -35,7 +28,6 @@ private const val TAG = "GestureLife"
 
      private val uiScope  =  CoroutineScope(Dispatchers.Main)
 
-     private  var onStartGestureLock:OnStartGestureLock?= null
 
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
     fun onVisible() {
@@ -52,7 +44,7 @@ private const val TAG = "GestureLife"
                 withContext(Dispatchers.IO){
                     val  isOpenHandLock =  GestureManager.getFragmentGestureState()
                     if(isOpenHandLock ){
-                          GestureActivity.actionStart(ActivityUtils.getTopActivity(),GestureActivity.GestureType.Verify)
+                          GestureActivity.actionStart(ActivityUtils.getTopActivity(),GestureActivity.GestureState.Verify)
                     }
                 }
 
@@ -65,7 +57,5 @@ private const val TAG = "GestureLife"
     @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
     fun disconnectListener() {
         EasyLog.e(TAG,"==ON_PAUSE==")
-        onStartGestureLock = null
-       // fragment.waitingGesture = true
     }
 }
