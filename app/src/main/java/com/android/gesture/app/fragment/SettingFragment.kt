@@ -64,13 +64,16 @@ class SettingFragment : Fragment() {
 
 
             lifecycleScope.launch {
-                val appGestureState = GestureManager.getFragmentGestureState()
-                if (appGestureState) {
-                    GestureManager.setAppGestureState()
-                    gesture_switch.isChecked = true
-                    gesture_switch_by_money.isChecked = false
-                    return@launch
+                if(!gesture_switch.isChecked){
+                    val appGestureState = GestureManager.getFragmentGestureState()
+                    if (appGestureState) {
+                        GestureManager.setAppGestureState()
+                        gesture_switch.isChecked = true
+                        gesture_switch_by_money.isChecked = false
+                        return@launch
+                    }
                 }
+
                 if (gesture_switch.isChecked) {
                     GestureActivity.actionStartForResult(
                         this@SettingFragment,
@@ -94,18 +97,20 @@ class SettingFragment : Fragment() {
         fragment_gesture_lay.setOnClickListener {
 
                 lifecycleScope.launch {
-                    val appGestureState = GestureManager.getAppGestureState()
-                    if(appGestureState){
-                        GestureManager.setSFragmentState()
-                        gesture_switch.isChecked = false
-                        gesture_switch_by_money.isChecked = true
-                        return@launch
+                    if(!gesture_switch_by_money.isChecked){
+                        val appGestureState = GestureManager.getAppGestureState()
+                        if(appGestureState){
+                            GestureManager.setSFragmentState()
+                            gesture_switch.isChecked = false
+                            gesture_switch_by_money.isChecked = true
+                            return@launch
+                        }
                     }
-                    if(gesture_switch.isChecked){
-                        GestureActivity.actionStartForResult(this@SettingFragment, GestureActivity.GestureState.Cancel,GestureActivity.GestureSettingType.AppType)
+                    if(gesture_switch_by_money.isChecked){
+                        GestureActivity.actionStartForResult(this@SettingFragment, GestureActivity.GestureState.Cancel,GestureActivity.GestureSettingType.FragmentType)
 
                     }else{
-                        GestureActivity.actionStartForResult(this@SettingFragment, GestureActivity.GestureState.Setting,GestureActivity.GestureSettingType.AppType)
+                        GestureActivity.actionStartForResult(this@SettingFragment, GestureActivity.GestureState.Setting,GestureActivity.GestureSettingType.FragmentType)
                     }
                 }
 
