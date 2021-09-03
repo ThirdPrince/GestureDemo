@@ -32,7 +32,6 @@ class GestureLifecycleHandler constructor(context:Context): Application.Activity
 
     }
 
-
     /**
      * 记录 activity 前后台情况
      */
@@ -64,7 +63,6 @@ class GestureLifecycleHandler constructor(context:Context): Application.Activity
             }
 
         }
-        val manActivity = ActivityUtils.getTopActivity()
 
     }
 
